@@ -1,0 +1,34 @@
+[
+//  {
+//    "domId": "domId", // 页面上的domId
+//    "ajax": "/ajax", // 请求到后台的url
+//    "requestModel": "local", // remote / local 是否为本地请求，本地就使用测试数据，非本地请求ajax远程数据
+//    "template": "<div>模板数据：<a>{data1}</a></div>", // 如果使用模板，会将模板替换目标domId的html内容
+//    "data": [{ data1: 0 }], // 测试数据，返回数据必须为数组
+//    "callback": "callback" // 回调用方法
+//  }
+  {
+    "domId": "app", // 这是id
+    "ajax": "/appinfo",
+    "requestModel": "remote",
+    "data": [{
+      "times": 5,
+      "ip": "192.168.0.1",
+      "time": "2018-07-30 14:31:12",
+      "version": "1.01"
+    }],
+    "callback": ""
+  },
+  {
+    "domId": "module", // 获取模块的内容
+    "ajax": "/moduleinfo",
+    "requestModel": "remote",
+    "data": [{
+      "id": 0,
+      "name": "无模块",
+      "link": "/xy2/xy2.html",
+      "count": 1
+    }],
+    "callback": "initModuleData"
+  }
+]
