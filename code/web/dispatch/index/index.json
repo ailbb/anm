@@ -1,0 +1,14 @@
+[
+  {
+    "domId": "app", // 绑定的domId， 在该内容下面查找
+    "ajax": "/info", // 后台请求链接
+    "requestModel": "remote", // local, remote 本地请求，还是后台请求
+    "data": [{
+      "ip": "127.0.0.1", // 登陆IP
+      "time": "1999-01-01 00:00:00", // 时间
+      "cookie": "shirosessionid=cf33d990-f412-4238-a028-b76a0c004468; JSESSIONID=29E87A608C195EF46D3DE0A65CDDA331", // Cookie
+      "headers": "{\"host\":\"localhost\",\"connection\":\"keep-alive\",\"pragma\":\"no-cache\",\"cache-control\":\"no-cache\",\"accept\":\"text/javascript, application/javascript, application/ecmascript, application/x-ecmascript, */*; q=0.01\",\"dnt\":\"1\",\"x-requested-with\":\"XMLHttpRequest\",\"user-agent\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36\",\"referer\":\"http://localhost/index.html\",\"accept-encoding\":\"gzip, deflate, br\",\"accept-language\":\"zh-CN,zh;q=0.9,en;q=0.8,en-US;q=0.7\",\"cookie\":\"shirosessionid=cf33d990-f412-4238-a028-b76a0c004468; JSESSIONID=29E87A608C195EF46D3DE0A65CDDA331\"}" // http头
+    }],
+    "callback": "" // 处理数据的回调方法
+  }
+]

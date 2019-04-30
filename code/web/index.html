@@ -2,112 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        body, html {
-            height: 100%;
-        }
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
-        b {
-            color: #dc143c;
-            margin-left: 5px;
-            margin-right: 5px;
-        }
+    <title>AILBB</title>
 
-        #module {
-           height: 80%;
-        }
+    <!--框架start-->
+    <!--bootstrap适应mobile声明-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        .module-chart {
-            width: 50%;
-            height: 50%;
-        }
-    </style>
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+    <link rel="stylesheet" type="text/css" href="lib/Bootstrap/bootstrap-3.3.5/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="lib/Vue/vue-2.6.10/vue.min.css">
+    <!--框架end-->
+
+    <!--链接文件导航-->
+    <script src="lib/Vue/vue-2.6.10/vue.min.js"></script>
+    <script src="lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
+    <script src="lib/Bootstrap/bootstrap-3.3.5/dist/js/bootstrap.min.js"></script>
+
+    <script src="/dispatch/dispatch.js" data-bind="index/index.json"></script>
 </head>
-<body id="app">
-    <h1>欢迎本站的第<b data-field="times">0</b>位访问者! 您的ip为：<b data-field="ip">127.0.0.1</b></h1>
+<body>
+    <div id="app" v-cloak>
+        <p>当前登陆IP：{{ip}}</p>
+        <p>登录时间：{{time}}</p>
+        <p>cookie：{{cookie}}</p>
+        <p>headers：{{headers}}</p>
 
-    <div id="module">
-        <h2>本站共有<b data-field="module-count">0</b>个模块，请选择需要访问的模块：</h2>
-        <ul data-field="module-list"></ul>
+        <p>当前登陆IP：<span v-text='ip'></span></p>
+        <p>登录时间：<span v-text='time'></span></p>
+        <p>cookie：<span v-text='cookie'></span></p>
+        <p>headers：<span v-text='headers'></span></p>
 
-        <div data-field="module-chart" class="module-chart"></div>
-        <h3>截止最新时间【<b data-field="time">1999-01-01 00:00:00</b>】</h3>
+        <p>当前登陆IP：<span data-field='ip'></span></p>
+        <p>登录时间：<span data-field='time'></span></p>
+        <p>cookie：<span data-field='cookie'></span></p>
+        <p>headers：<span data-field='headers'></span></p>
     </div>
 
-    <div>当前系统版本：<b data-field="version">1.00</b></div>
-
-    <script src="/lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
-    <script src="/lib/Echarts/echarts-3.1.2/echarts.js"></script>
-
-    <script>
-        function initModuleData(error, data) {
-            let module = "module";
-            $.dispatch.text(module, "module-count", data.length);
-
-            $.dispatch.html(module, "module-list",  $.dispatch.template('<li><a data-id="{id}" href="{link}?id={id}">{name}  (已经点击{count}次)</a></li>', data));
-
-            let charData = {
-                legend: [],
-                series: []
-            };
-
-            for(let i in data) {
-                let d = data[i];
-                charData.legend.push(d.name);
-                charData.series.push({
-                    name: d.name,
-                    value: d.count
-                });
-            }
-
-            initEchart($.findFiled("module-chart")[0], charData);
-        }
-
-        function initEchart(dom, data) {
-            let option = {
-                title : {
-                    text: '模块访问次数统计',
-                    x:'center'
-                },
-                tooltip: {
-                    trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
-                },
-                legend: {
-                    type: 'scroll',
-                    orient: 'vertical',
-                    right: 10,
-                    top: 20,
-                    bottom: 20,
-                    data: data.legend
-                },
-                series: [
-                    {
-                        name: '模块',
-                        type: 'pie',
-                        radius : '55%',
-                        center: ['40%', '50%'],
-                        data: data.series,
-                        itemStyle: {
-                            emphasis: {
-                                shadowBlur: 10,
-                                shadowOffsetX: 0,
-                                shadowColor: 'rgba(0, 0, 0, 0.5)'
-                            }
-                        }
-                    }
-                ]
-            };
-
-            let myChart = echarts.init(dom);
-
-            // 使用刚指定的配置项和数据显示图表。
-            myChart.setOption(option);
-        }
-    </script>
-
-    <!--系统框架必备-->
-    <script src="/dispatch/dispatch.js" data-bind="index.json"></script>
 </body>
 </html>

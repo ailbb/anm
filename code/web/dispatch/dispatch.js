@@ -1,15 +1,17 @@
 /**
  * Created by sirzh on 2018/4/12.
  */
-(function () {
+function dispatch($, Vue) {
     let nodes = document.getElementsByTagName("script"); //只在head标签中寻找
     let dataBind;
 
     for(let i = 0; node = nodes[i++];) {
-        if( node.src && /\/dispatch\/dispatch.*\.js/.test(node.src)) {
-            dataBind = (node.getAttribute('data-bind') || "config.json").split(",");
+        if( /\/dispatch\/dispatch.*\.js/.test(node.src) || node.getAttribute('data-bind')) {
+            dataBind = node.getAttribute('data-bind');
         }
     }
+
+    dataBind = (dataBind || "config.json").split(",");
 
     console.info("======= 加载数据文件开始 Start =======");
 
@@ -17,7 +19,7 @@
         console.info(dataBind[i]);
         // 获取呈现模块的配置
         $.ajax({
-            url: "/dispatch/config/" + dataBind[i],
+            url: "/dispatch/" + dataBind[i],
             type: "GET",
             dataType: "json", //指定服务器返回的数据类型
             success: function (config) {
@@ -65,7 +67,7 @@
      * @param data
      */
     function doData(error, c, data) {
-        $.dispatch.data[c.domId] = data;
+        $.dispatch.data[c.domId] = (data = $.isArray(data) ? data : [data]);
 
         if(c.callback) return eval(c.callback).call(c, error, data);
 
@@ -74,10 +76,21 @@
         if(c.template) {
             dom.html(c.domId, $.dispatch.template(c.template, data).join(""));
         } else {
+            let dataFields = dom.find("[data-field]");
+
             for(let i in data) { // data数组
-                for(let o in data[i]) {
-                    dom.find('[data-field="'+o+'"]').text(data[i][o]);
-                }
+                if(dataFields.length)
+                    for(let j=0; j<dataFields.length; j++) {
+                        let el = $(dataFields[j]);
+                        el.text(data[i][el.attr('data-field')]);
+                    }
+
+                if(!Vue) return;
+
+                new Vue({
+                    el: '#app',
+                    data: data[i]
+                });
             }
         }
     };
@@ -124,4 +137,6 @@
             }
         }
     });
-})();
+}
+
+window.define ? define(['jQuery','vue'], dispatch) : dispatch($, Vue);

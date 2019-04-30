@@ -1,0 +1,1 @@
+WinRAR a -r -ep1 -sfx -z%~dp0rar-2-exe.cfg -iicon%~dp0favicon.bmp %USERPROFILE%\Desktop\Ailbb.exe %~dp0 
