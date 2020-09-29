@@ -1,10 +1,10 @@
 @echo = AILBB = 
-@echo æ­£åœ¨å¯åŠ¨æœåŠ¡...
-@echo ç¨‹åºè·¯å¾„ï¼š%~dp0
-@echo æç¤ºï¼šï¼ˆå¦‚éœ€åœæ­¢æœåŠ¡è¯·æŒ‰ï¼šctrl+cï¼‰
-@echo æ­£åœ¨å¯åŠ¨æµè§ˆå™¨...
+@echo ÕýÔÚÆô¶¯·þÎñ...
+@echo ³ÌÐòÂ·¾¶£º%~dp0
+@echo ÌáÊ¾£º£¨ÈçÐèÍ£Ö¹·þÎñÇë°´£ºctrl+c£©
+@echo ÕýÔÚÆô¶¯ä¯ÀÀÆ÷...
 @start "" http://localhost:80
 @%~dp0\program\windows\node %~dp0\code\start.js
-@echo å¯åŠ¨æµè§ˆå™¨å®Œæˆï¼
-@echo æœåŠ¡ç»“æŸï¼
+@echo Æô¶¯ä¯ÀÀÆ÷Íê³É£¡
+@echo ·þÎñ½áÊø£¡
 @pause

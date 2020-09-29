@@ -14,7 +14,7 @@ module.exports = function () {
         return path;
     };
 
-    let findPath = function (isRelative, path) {
+    let findPath = function (path, isRelative, args) {
         let cwd = process.cwd() + "/"; // 程序运行目录
 
         if(isRelative) {
@@ -36,11 +36,11 @@ module.exports = function () {
     };
 
     findPath.base = function (path) {
-        return findPath(true, path);
+        return findPath(path, true);
     };
 
     findPath.service = findPath.module = function (path) {
-        return findPath(false, "/code/src/module/" + path, "/code/src/module/" + path + "/index.js", "/code/src/module/" + path + "/" + path + ".js");
+        return findPath("/code/src/module/" + path, false, ["/code/src/module/" + path + "/index.js", "/code/src/module/" + path + "/" + path + ".js"]);
     };
 
     findPath.format = format;
