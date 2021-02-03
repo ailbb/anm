@@ -9,6 +9,7 @@ module.exports = function () {
     let server = require(p.base("server"))(); // 引用系统服务模块
     let jp = require(p.base("jsonp"))(); // json解析
     let db = require(p.base("db")); // 引用db模块
+    let tool = require(p.base("tool"))(); // 引用db模块
 
     return {
       p,
@@ -16,6 +17,7 @@ module.exports = function () {
       db,
       server,
       cache,
+      tool,
       start: server.start,
     };
 };

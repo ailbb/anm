@@ -4,6 +4,7 @@
  */
 module.exports = function () {
     let fs = require('fs');
+    let ph = require('path');
 
     let format = function(path){
         path = ("/" + path).replace(/\/+|\\+/g, "/");
@@ -15,25 +16,34 @@ module.exports = function () {
     };
 
     let findPath = function (path, isRelative, args) {
-        let cwd = process.cwd() + "/"; // 程序运行目录
+        let cwd = process.cwd();
+        if(cwd.includes('code')) cwd = cwd.substr(0, cwd.indexOf("code")); // 程序运行目录
 
         if(isRelative) {
-            cwd = __dirname + "/" + path;
+            cwd = getPath(__dirname + ph.sep,  [path].concat(args));
         } else {
-            if(~cwd.lastIndexOf('ans')) cwd = cwd.substr(0, cwd.lastIndexOf('ans') + 'ans'.length); // 项目根目录
-
-            if(path.startsWith("/"))
-                cwd += path;
+            if(path.startsWith("/") || /^[A-Za-z]:/.test(path))
+                cwd = getPath(cwd, [path].concat(args));
             else {
-                let pathIndex = format(cwd + `/program/node_modules/${path}/index.js`); // 根目录的目录
-                let pathModule = format(cwd + `/program/node_modules/${path}/${path}.js`); // 根目录的目录
-                if(fs.existsSync(pathIndex)) return pathIndex;
-                if(fs.existsSync(pathModule)) return pathModule;
+                cwd = getPath(cwd, [`/program/node_modules/${path}/index.js`, `/program/node_modules/${path}/${path}.js`, `/program/node_modules/${path}/lib/${path}.js`, `/program/node_modules/${path}/src/index.js`]);
             }
         }
 
         return format(cwd);
     };
+
+    let getPath = function (dir, paths){
+        let p = dir;
+
+        for(let a of paths) {
+            if(!a) continue;
+            p = !fs.existsSync(a) ? format(dir + a) : a;
+            let tmp = p  + (!p.endsWith(".js") ? ".js" : "");
+            if(fs.existsSync(tmp) && fs.lstatSync(tmp).isFile()) return tmp;
+        }
+
+        return p;
+    }
 
     findPath.base = function (path) {
         return findPath(path, true);

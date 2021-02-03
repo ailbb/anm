@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--ExtJs适应mobile声明-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>指令播放列表</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+
+    <!--链接文件导航-->
+    <script src="../../lib/Vue/vue-2.6.10/vue.min.js"></script>
+    <script src="../../lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+    <link rel="stylesheet" type="text/css" href="/lib/Bootstrap/bootstrap-3.3.5/css/bootstrap.css">
+    <script src="/lib/Bootstrap/bootstrap-3.3.5/js/bootstrap.js"></script>
+    <script src="/lib/Moment/moment-2.13.0/moment.min.js"></script>
+
+    <script src="/dispatch/dispatch.js" data-bind="instruction/instruction.json"></script>
+    <style>
+        html,body{ height: 100%; }
+
+        .btn {
+            width: 150px!important;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body class="container" >
+    <form class="row form-horizontal" role="form" id="app_form" v-cloak>
+        <div class="form-group col-lg-6" >
+            <label class="col-sm-3 control-label input-lg" style="top: 3px;width: 130px">播放方案：</label>
+            <div class="col-sm-9">
+                <select class="form-control input-lg" @change="schemeChange">
+                    <option v-for="scheme in schemeList" :value="scheme.scheme_id">{{ scheme.scheme_name }}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group col-lg-6">
+            <input type="button"  class="btn btn-default btn-lg" v-bind:value="!played ? '播放指令表' : '停止播放'" v-bind:class="!played ? 'btn-info' : 'btn btn-danger'" @click = "playClick" />
+            <button type="button" class="btn btn-default btn-lg" @click="createTestIns">录入测试指令</button>
+        </div>
+
+    </form>
+
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th style="width: 80px;">序号</th>
+                <th style="width: 150px;">播放时间</th>
+                <th>播放内容</th>
+            </tr>
+            </thead>
+            <tbody id="app_table" v-cloak>
+            <tr v-for="play in playList">
+                <td>{{play.ins_id}}</td>
+                <td>{{play.time}}</td>
+                <td>
+                    <a v-bind:href="play.text" target="_blank" v-if="play.type=='link'">{{play.text}}</a>
+                    <span v-if="play.type!='link'">{{play.text}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <nav class="navbar navbar-default" role="navigation" id="app_info" v-cloak>
+        <p class="navbar-text">当前播放：<a href="#" v-if="vform.played" class="navbar-link" v-text="scheme">{{scheme}}</a></p>
+        <p class="navbar-text navbar-right" style="margin-right:15px;">当前时间：{{nowTime}}</p>
+    </nav>
+
+    <script>
+
+        $(function (){
+            $('.table-responsive').css('max-height', ($('body').height() - 150 )+ 'px');
+        });
+
+
+
+        var vform = new Vue({
+            el: '#app_form',
+            data: {
+                schemeList: [],
+                played: false,
+                music_link: ""
+                // [{ scheme_name: 'Runoob', scheme_id: '1' }]
+            },
+            methods:{
+                schemeChange: function(ele) {
+                    vinfo.scheme_id = ele.target.value;
+                    vinfo.scheme = ele.target.options[ele.target.selectedIndex].textContent;
+                },
+                playClick: function (){
+                    this.played = !this.played;
+                    vinfo.scheme = $("select").find("option:selected").text();
+                },
+                createTestIns: function (e){
+                    window.count=1;
+                    var data = [];
+
+                    $.ajax({
+                        url: '/clear_ins',
+                        async: false,
+                        data: {
+                            scheme_id: '3'
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/music_list/播报提示语音',
+                        async: false,
+                        success: function (d){
+                            for(var i in d) d[i] = 'music/播报提示语音/' + d[i];
+                            data = data.concat(d);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/music_list/普通闹钟铃声',
+                        async: false,
+                        success: function (d){
+                            for(var i in d) d[i] = 'music/普通闹钟铃声/' + d[i];
+                            data = data.concat(d);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/music_list/智能校园广播',
+                        async: false,
+                        success: function (d){
+                            for(var i in d) d[i] = 'music/智能校园广播/' + d[i];
+                            data = data.concat(d);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/music_list/通用学校铃声',
+                        async: false,
+                        success: function (d){
+                            for(var i in d) d[i] = 'music/通用学校铃声/' + d[i];
+                            data = data.concat(d);
+                        }
+                    });
+
+                    $.ajax({
+                        url: '/music_list/阳光校园铃声',
+                        async: false,
+                        success: function (d){
+                            for(var i in d) d[i] = 'music/阳光校园铃声/' + d[i];
+                            data = data.concat(d);
+                        }
+                    });
+
+
+
+                    for (var i=20; i-->0;) {
+                        var t = data[Math.round(Math.random()*(data.length-1))];
+                        $.ajax({
+                            url: '/save_ins',
+                            async: false,
+                            data: {
+                                ins_id: window.count++,
+                                scheme_id: '3',
+                                time: moment().add(window.count*15, 'second').format('YYYY/MM/DD HH:mm:ss'),
+                                text: t,
+                                type: 'link',
+                                play_type: 'follow'
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
+        var vtable = new Vue({
+            el: '#app_table',
+            data: {
+                playList: []
+                // [{ ins_id: 'Runoob', scheme_id: '1' }]
+            }
+        });
+
+        var vinfo = new Vue({
+            el: '#app_info',
+            data: {
+                scheme: '',
+                scheme_id: 3,
+                nowTime: '',
+            },
+            watch: {
+                nowTime: function (d){
+                    for(var i in vtable.playList) {
+                        var l = vtable.playList[i];
+                        if(l.time == d && vform.played) {
+                            var n = new Audio(l.type == "text" ? ("http://tts.baidu.com/text2audio?lan=zh&ie=UTF-8&text='" +encodeURI(l.text)) : l.text);
+                            n.play();
+                        }
+                    }
+                }
+            }
+        });
+
+        setInterval((function (){ return ($.ajax({url:"/scheme_list", success: (d)=> vform.schemeList = d}), arguments.callee); })(), 500);
+
+        setInterval((function (){ return ($.ajax({url:"/ins_list?scheme_id="+$('select').val(), success: (d)=> vtable.playList = d.filter((it) => it.time>moment().subtract(20, 'second').format('YYYY/MM/DD HH:mm:ss'))}), arguments.callee); })(), 500);
+
+        setInterval((function (){ return (vinfo.nowTime = moment().format('YYYY/MM/DD HH:mm:ss'), arguments.callee); })(), 0);
+    </script>
+</body>
+</html>

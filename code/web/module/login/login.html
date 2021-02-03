@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>系统登录</title>
+    <style>
+        html { height: 100%; }
+
+        .background-body {
+            height: 100%;
+            background-image: url("login.jpg");
+            background-size: 100% 100%;
+        }
+
+        .form-control {
+            height: 41px!important;
+        }
+
+        .login-bg {
+            background: #15282e;
+            opacity: 0.75;
+        }
+
+        .login-form {
+            width: 500px;
+            height: 350px;
+            border-radius: 5px;
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            top: 300px;
+            text-align: right;
+        }
+
+        .login-form-header {
+            width: 100%;
+            height: 90px;
+            text-align: center;
+            border: 0px!important;
+            margin: 0px!important;
+        }
+
+        .login-form-header>h1 {
+            line-height: 90px;
+            color: #FFFAE3;
+        }
+
+        .login-form-input {
+            padding: 15px 30px 15px 30px;
+        }
+
+        .login-form-btn {
+            width: 60px;
+            height: 35px;
+            margin-top: 10px;
+        }
+
+        .login-form-btn-login {
+            margin-right: 10px;
+        }
+
+        .login-form-btn-regist {
+            margin-right: 30px;
+        }
+
+        .login-form-check {
+            text-align: right;
+            padding-right: 50px;
+            color: #FFF;
+        }
+
+        .login-split {
+            width: 100%;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+
+        .login-split-line {
+            margin: 0!important;
+            opacity: 0.2;
+        }
+
+        .system-info {
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: 100%;
+            text-align: center;
+            top: 655px;
+            color: #FFF;
+        }
+    </style>
+
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/2.1.1/jquery.min.js?v=1.524"></script>
+    <script src="https://s0.pstatp.com/cdn/expire-1-M/twitter-bootstrap/3.3.5/js/bootstrap.min.js?v=1.524"></script>
+    <link rel="stylesheet" href="https://s0.pstatp.com/cdn/expire-1-M/twitter-bootstrap/3.3.5/css/bootstrap.min.css?v=1.524">
+</head>
+<body class="background-body">
+    <div class="login-bg login-form"></div>
+    <form method="POST" action="/login" class="login-form" role="form">
+        <div class="page-header login-form-header">
+            <h1>AILBB
+                <small>响铃系统</small>
+            </h1>
+        </div>
+        <div class="input-group login-form-input">
+            <span class="input-group-addon">用户名</span>
+            <input type="text" class="form-control " name="username" placeholder="请输入用户名" />
+        </div>
+        <div class="input-group login-form-input">
+            <span class="input-group-addon">密&emsp;码</span>
+            <input type="password" name="password" class="form-control" placeholder="请输入密码" />
+        </div>
+        <div class="form-group login-form-check">
+            <div >
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">记住密码
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="input-group login-split"><hr class="login-split-line"> </div>
+        <input type="submit" class="btn btn-info login-form-btn login-form-btn-login" value="登录" />
+        <input type="button" class="btn btn-success login-form-btn login-form-btn-regist" value="注册" />
+    </form>
+    <div class="system-info">Copyright @ Ailbb.com 2021</div>
+</body>
+</html>

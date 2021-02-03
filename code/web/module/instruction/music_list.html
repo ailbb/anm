@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--ExtJs适应mobile声明-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>音乐管理</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+
+    <link rel="stylesheet" type="text/css" href="/lib/Bootstrap/bootstrap-3.3.5/css/bootstrap.css">
+    <script src="/lib/Bootstrap/bootstrap-3.3.5/js/bootstrap.js"></script>
+    <style>
+        th,td {
+            padding: 3px!important;
+        }
+    </style>
+</head>
+<body class="container" >
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th valign="top" style="width: 30px;"><img src="data:imag9e/gif;base64,R0lGODlhFAAWAKEAAP///8z//wAAAAAAACH+TlRoaXMgYXJ0IGlzIGluIHRoZSBwdWJsaWMgZG9tYWluLiBLZXZpbiBIdWdoZXMsIGtldmluaEBlaXQuY29tLCBTZXB0ZW1iZXIgMTk5NQAh+QQBAAABACwAAAAAFAAWAAACE4yPqcvtD6OctNqLs968+w+GSQEAOw=="
+                                      alt="[ICO]"></th>
+                <th><b>文件名</b></th>
+                <th style="width: 150px;    text-align: center;"><b>最后修改时间</b></th>
+                <th style="width: 80px;    text-align: center;"><b>文件大小</b></th>
+            </tr>
+            {{list}}
+        </table>
+    </div>
+</body>
+</html>

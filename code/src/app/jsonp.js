@@ -9,7 +9,7 @@ module.exports = function () {
         let o = {};
         for(let k in query) {
             if(~(["callback", "_"]).indexOf(k)) continue;
-            o[k] == query[k];
+            o[k] = query[k];
         }
         return o;
     }

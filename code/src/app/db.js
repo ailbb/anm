@@ -50,7 +50,7 @@ module.exports = function (dbPath) {
         let where = " WHERE 1=1 ";
 
         if(cond) for(let o in cond) {
-            let w = cond[o].toString().replace(/\s+/g, ""); // 将空格全部去掉
+            let w = cond[o] ? cond[o].toString().replace(/\s+/g, "") : (cond[o] || ""); // 将空格全部去掉
             where += ` AND ${o} = '${w}' `;
         }
 

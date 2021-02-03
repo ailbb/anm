@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <title>AILBB</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+
+    <!--链接文件导航-->
+    <script src="/lib/Vue/vue-2.6.10/vue.min.js"></script>
+    <script src="/lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
+
+    <script src="/dispatch/dispatch.js" data-bind="info/info.json"></script>
+</head>
+<body>
+<div id="app" v-cloak>
+    <h2>Vue方式</h2>
+    <p>当前登陆IP：{{ip}}</p>
+    <p>登录时间：{{time}}</p>
+    <p>cookie：{{cookie}}</p>
+    <p>headers：{{headers}}</p>
+
+    <h2>Vue2方式</h2>
+    <p>当前登陆IP：<span v-text='ip'></span></p>
+    <p>登录时间：<span v-text='time'></span></p>
+    <p>cookie：<span v-text='cookie'></span></p>
+    <p>headers：<span v-text='headers'></span></p>
+
+    <h2>自定义数据绑定方式</h2>
+    <p>当前登陆IP：<span data-field='ip'></span></p>
+    <p>登录时间：<span data-field='time'></span></p>
+    <p>cookie：<span data-field='cookie'></span></p>
+    <p>headers：<span data-field='headers'></span></p>
+</div>
+
+</body>
+</html>

@@ -2,43 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
     <title>AILBB</title>
 
-    <!--框架start-->
-    <!--bootstrap适应mobile声明-->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
 
     <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
-    <link rel="stylesheet" type="text/css" href="lib/Bootstrap/bootstrap-3.3.5/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="lib/Vue/vue-2.6.10/vue.min.css">
-    <!--框架end-->
 
-    <!--链接文件导航-->
-    <script src="lib/Vue/vue-2.6.10/vue.min.js"></script>
-    <script src="lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
-    <script src="lib/Bootstrap/bootstrap-3.3.5/dist/js/bootstrap.min.js"></script>
-
-    <script src="/dispatch/dispatch.js" data-bind="index/index.json"></script>
+<!--    <script>location.href="/module/info/info.html"</script>-->
+    <script src="/lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
 </head>
 <body>
-    <div id="app" v-cloak>
-        <p>当前登陆IP：{{ip}}</p>
-        <p>登录时间：{{time}}</p>
-        <p>cookie：{{cookie}}</p>
-        <p>headers：{{headers}}</p>
-
-        <p>当前登陆IP：<span v-text='ip'></span></p>
-        <p>登录时间：<span v-text='time'></span></p>
-        <p>cookie：<span v-text='cookie'></span></p>
-        <p>headers：<span v-text='headers'></span></p>
-
-        <p>当前登陆IP：<span data-field='ip'></span></p>
-        <p>登录时间：<span data-field='time'></span></p>
-        <p>cookie：<span data-field='cookie'></span></p>
-        <p>headers：<span data-field='headers'></span></p>
-    </div>
-
+    <script>
+        $.get("/module_list", function (data){
+            var li = [];
+            for(var i in data) {
+                li.push(`<a href="/module/${data[i]}/${data[i]}.html">${data[i]}</a>`)
+            }
+           $('body').html(li.join('<br>'));
+        });
+    </script>
 </body>
 </html>

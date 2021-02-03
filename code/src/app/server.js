@@ -35,25 +35,54 @@ module.exports = function () {
 
         // 拦截模块文件，记录信息
         // app.use("/**.html", function (request, response, next) {
-        //     if(request.query.id != undefined)
-        //         db.queryCondition(`select * from base_menu`, jp.c(request.query), function (data) {
-        //             let ip = request.headers['x-forwarded-for'] ||
-        //                 request.connection.remoteAddress ||
-        //                 request.socket.remoteAddress ||
-        //                 request.connection.socket.remoteAddress;
-        //             let count = data[0].count + 1;
-        //             let time = moment().format('YYYY-MM-DD HH:mm:ss');
-        //
-        //             // 更新数据
-        //             db.run(`
-        //                UPDATE base_menu
-        //                SET IP='${ip}',COUNT=${count},TIME='${time}'
-        //                WHERE ID = '${request.query.id}'
-        //             `);
-        //         });
-        //
-        //     next();
+            // if(request.query.id != undefined)
+            //     db.queryCondition(`select * from base_menu`, jp.c(request.query), function (data) {
+            //         let ip = request.headers['x-forwarded-for'] ||
+            //             request.connection.remoteAddress ||
+            //             request.socket.remoteAddress ||
+            //             request.connection.socket.remoteAddress;
+            //         let count = data[0].count + 1;
+            //         let time = moment().format('YYYY-MM-DD HH:mm:ss');
+            //
+            //         // 更新数据
+            //         db.run(`
+            //            UPDATE base_menu
+            //            SET IP='${ip}',COUNT=${count},TIME='${time}'
+            //            WHERE ID = '${request.query.id}'
+            //         `);
+            //     });
+            //
+            // next();
         // });
+
+        // 拦截模块文件，记录信息
+        app.use("/login.html", function (request, response, next) {
+            response.redirect('/module/login/login.html');
+        });
+
+        // 拦截模块文件，记录信息
+        app.use("/**", function (request, response, next) {
+            var bol = false;
+            for(let filter of [
+                "/login.html",
+                "/login.jpg",
+                "/login",
+            ]) {
+                if(!request.baseUrl || filter == request.baseUrl || request.baseUrl.endsWith(filter)) {
+                    bol = true;
+                    break;
+                }
+            }
+            if(!bol) {
+                var sess = request.session;
+                var loginUser = sess.user;
+                var isLogined = !!loginUser;
+
+                if(!isLogined) response.redirect('/login.html');
+            }
+
+            next();
+        });
 
         console.info("======= 加载框架文件开始 Start =======");
 

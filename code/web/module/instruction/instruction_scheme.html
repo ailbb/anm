@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--ExtJs适应mobile声明-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>指令方案管理</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+
+    <!--链接文件导航-->
+    <script src="../../lib/Vue/vue-2.6.10/vue.min.js"></script>
+    <script src="../../lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+    <link rel="stylesheet" type="text/css" href="/lib/Bootstrap/bootstrap-3.3.5/css/bootstrap.css">
+    <script src="/lib/Bootstrap/bootstrap-3.3.5/js/bootstrap.js"></script>
+    <script src="/lib/Moment/moment-2.13.0/moment.min.js"></script>
+
+    <script src="/dispatch/dispatch.js" data-bind="instruction/instruction.json"></script>
+    <style>
+        html,body{ height: 100%; }
+
+        .btn {
+            width: 150px!important;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+    </style>
+</head>
+<body class="container">
+    <form role="form" class="form-horizontal" id="app_form" v-cloak>
+        <div class="row">
+            <div class="form-group col-lg-6" >
+                <label class="col-lg-4 control-label input-lg" style="top: 3px;width: 150px">新方案名称：</label>
+                <div class="col-lg-8">
+                    <input type="text" class="form-control input-lg">
+                </div>
+            </div>
+            <div class="form-group col-lg-6">
+                <input type="button"  class="btn btn-default btn-lg" value="创建方案"/>
+                <input type="button"  class="btn btn-default btn-lg" value="删除勾选的方案"/>
+            </div>
+        </div>
+    </form>
+    <table class="table">
+        <caption></caption>
+        <thead>
+            <tr>
+                <th>方案ID</th>
+                <th>方案名称</th>
+                <th>创建时间</th>
+            </tr>
+        </thead>
+        <tbody id="app_table" v-cloak>
+            <tr class="active" v-for="scheme in schemeList">
+                <td>{{scheme.scheme_id}}</td>
+                <td>{{scheme.scheme_name}}</td>
+                <td>{{scheme.create_time}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <nav class="navbar navbar-default" role="navigation" id="app_info" v-cloak>
+        <p class="navbar-text navbar-right" style="margin-right:15px;">当前时间：{{nowTime}}</p>
+    </nav>
+
+    <script>
+
+        var vform = new Vue({
+            el: '#app_form',
+            data: {},
+            methods:{}
+        });
+
+        var vtable = new Vue({
+            el: '#app_table',
+            data: {
+                schemeList: []
+                // [{ ins_id: 'Runoob', scheme_id: '1' }]
+            }
+        });
+
+        var vinfo = new Vue({
+            el: '#app_info',
+            data: {
+                scheme: '当前状态',
+                scheme_id: 0,
+                nowTime: '',
+            },
+            watch: {}
+        });
+
+        setInterval((function (){ return ($.ajax({url:"/scheme_list", success: (d)=> vtable.schemeList = d}), arguments.callee); })(), 500);
+
+        setInterval((function (){ return (vinfo.nowTime = moment().format('YYYY/MM/DD HH:mm:ss'), arguments.callee); })(), 0);
+    </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--ExtJs适应mobile声明-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+    <title>指令播放列表</title>
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+
+    <!--链接文件导航-->
+    <script src="../../lib/Vue/vue-2.6.10/vue.min.js"></script>
+    <script src="../../lib/JQuery/jquery-2.1.1/jquery.min.js"></script>
+
+    <!-- 样式动态加载导致页面跳动，故首先将框架的样式引入 -->
+    <link rel="stylesheet" type="text/css" href="/lib/Bootstrap/bootstrap-3.3.5/css/bootstrap.css">
+    <script src="/lib/Bootstrap/bootstrap-3.3.5/js/bootstrap.js"></script>
+
+    <style>
+        html, body {
+            height: 100%;
+        }
+
+        .nav-center-parent {
+            position: relative;
+        }
+
+        .nav-center {
+            position: absolute;
+            margin: 0 auto;
+            left: 0;
+            right: 0;
+            width: 375px;
+        }
+    </style>
+</head>
+<body class="container" style="width: 100%;padding: 0">
+    <nav class="navbar navbar-inverse" role="navigation" style="border-radius: 0;  margin: 0;">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">AILBB</a>
+            </div>
+            <div class="nav-center-parent">
+                <ul class="nav navbar-nav nav-center">
+                    <li class="active"><a href="#" onclick="javascript:void(document.querySelector('iframe').src = 'instruction_player.html') ">播放列表</a></li>
+                    <li><a href="#" onclick="javascript:void(document.querySelector('iframe').src = 'instruction_scheme.html') ">方案管理</a></li>
+                    <li><a href="#" onclick="javascript:void(document.querySelector('iframe').src = 'instruction_ins.html') ">指令管理</a></li>
+                    <li><a href="#" onclick="javascript:void(document.querySelector('iframe').src = 'music_list.html') ">音乐资源管理</a></li>
+                </ul>
+                <ul class="nav navbar-nav  navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            我的<b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/logout">退出登录</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <iframe src="" width="100%" style=""></iframe>
+    <script>
+        $(function (){
+           $('iframe').css({
+               'height': ($('body').height()-57)+'px',
+               'padding': '15px',
+               'border': 0
+           });
+
+           $('li.active').find('a').click();
+
+            $('li>a').on('click', function (e) {
+                $('li').removeClass('active');
+                $(this.parentElement).addClass('active');
+            });
+        });
+    </script>
+</body>
+</html>
